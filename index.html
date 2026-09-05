@@ -1081,8 +1081,7 @@ function render(){
           <label for="fRecorrencia">Recorrência</label>
           <select id="fRecorrencia">
             <option value="0" ${state.formRecorrenciaDraft==='0'?'selected':''}>Não repetir</option>
-            <option value="full" ${state.formRecorrenciaDraft==='full'?'selected':''}>Todos os 12 meses</option>
-            ${Array.from({length:11},(_,i)=>i+2).map(n=>`<option value="${n}" ${state.formRecorrenciaDraft===String(n)?'selected':''}>${n}x</option>`).join('')}
+            ${Array.from({length:11},(_,i)=>i+2).map(n=>`<option value="${n}" ${state.formRecorrenciaDraft===String(n)?'selected':''}>${n}x, a partir deste mês</option>`).join('')}
           </select>
         </div>`}
         <button type="button" id="lancarBtn" class="submit-btn submit-btn-inline">${state.editingId ? 'Salvar' : 'Lançar'}</button>
@@ -1308,9 +1307,7 @@ function attachHandlers(){
       // ---- Modo criação: novo lançamento (com recorrência opcional) ----
       const recorrenciaVal = document.getElementById('fRecorrencia').value;
       let alvos; // [{mes, ano}]
-      if(recorrenciaVal === 'full'){
-        alvos = MESES.map((_,i)=>({mes:i+1, ano:state.year}));
-      } else if(recorrenciaVal !== '0'){
+      if(recorrenciaVal !== '0'){
         const parcelas = parseInt(recorrenciaVal,10) || 1;
         alvos = [];
         for(let i=0;i<parcelas;i++){
