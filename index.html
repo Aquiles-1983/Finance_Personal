@@ -1262,7 +1262,13 @@ function attachHandlers(){
 
   document.getElementById('searchInput').oninput = (e)=>{
     state.search = e.target.value;
+    const cursorPos = e.target.selectionStart;
     render();
+    const newInput = document.getElementById('searchInput');
+    if(newInput){
+      newInput.focus();
+      try{ newInput.setSelectionRange(cursorPos, cursorPos); }catch(err){}
+    }
   };
 
   document.getElementById('tipoFilterSelect').onchange = (e)=>{
